@@ -15,8 +15,12 @@ export class Circle extends Tool {
 
   private saved!: string;
 
-  constructor(protected canvas: Nullable<HTMLCanvasElement>) {
-    super(canvas);
+  constructor(
+    protected canvas: Nullable<HTMLCanvasElement>,
+    protected socket: WebSocket,
+    protected id: string,
+  ) {
+    super(canvas, socket, id);
 
     this.listen();
   }

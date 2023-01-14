@@ -9,8 +9,26 @@ class CanvasState {
 
   protected redoList: string[] = [];
 
+  public username = '';
+
+  public socket!: WebSocket;
+
+  public sessionId = '';
+
   constructor() {
     makeAutoObservable(this);
+  }
+
+  public setSocket(socket: WebSocket) {
+    this.socket = socket;
+  }
+
+  public setSessionId(sessionId: string) {
+    this.sessionId = sessionId;
+  }
+
+  public setUserName(name: string) {
+    this.username = name;
   }
 
   public setCanvas(canvas: Nullable<HTMLCanvasElement>) {
@@ -23,6 +41,43 @@ class CanvasState {
 
   public pushToRedo(data: string) {
     this.redoList.push(data);
+  }
+
+  public undo() {
+    const ctx = this.canvas!.getContext('2d');
+
+    if (this.undoList.length) {
+      this.undoAndRedoWriter(this.undoList, this.redoList, ctx);
+    } else {
+      ctx!.clearRect(0, 0, this.canvas!.width, this.canvas!.height);
+    }
+  }
+
+  public redo() {
+    const ctx = this.canvas!.getContext('2d');
+
+    if (this.redoList.length) {
+      this.undoAndRedoWriter(this.redoList, this.undoList, ctx);
+    }
+  }
+
+  private undoAndRedoWriter(
+    undoList: string[],
+    redoList: string[],
+    ctx: Nullable<CanvasRenderingContext2D>,
+  ) {
+    const dataUrl = undoList.pop();
+
+    if (ctx && dataUrl) {
+      redoList.push(this.canvas!.toDataURL());
+      const image = new Image();
+
+      image.src = dataUrl;
+      image.onload = () => {
+        ctx!.clearRect(0, 0, this.canvas!.width, this.canvas!.height);
+        ctx!.drawImage(image, 0, 0, this.canvas!.width, this.canvas!.height);
+      };
+    }
   }
 }
 

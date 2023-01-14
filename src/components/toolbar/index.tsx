@@ -13,23 +13,38 @@ import { Rect } from 'tools/rect';
 const BUTTONS = [
   {
     className: 'brush',
-    onClick: () => toolState.setTool(new Brush(canvasState.canvas)),
+    onClick: () =>
+      toolState.setTool(
+        new Brush(canvasState.canvas, canvasState.socket, canvasState.sessionId),
+      ),
   },
   {
     className: 'rect',
-    onClick: () => toolState.setTool(new Rect(canvasState.canvas)),
+    onClick: () =>
+      toolState.setTool(
+        new Rect(canvasState.canvas, canvasState.socket, canvasState.sessionId),
+      ),
   },
   {
     className: 'circle',
-    onClick: () => toolState.setTool(new Circle(canvasState.canvas)),
+    onClick: () =>
+      toolState.setTool(
+        new Circle(canvasState.canvas, canvasState.socket, canvasState.sessionId),
+      ),
   },
   {
     className: 'eraser',
-    onClick: () => toolState.setTool(new Eraser(canvasState.canvas)),
+    onClick: () =>
+      toolState.setTool(
+        new Eraser(canvasState.canvas, canvasState.socket, canvasState.sessionId),
+      ),
   },
   {
     className: 'line',
-    onClick: () => toolState.setTool(new Line(canvasState.canvas)),
+    onClick: () =>
+      toolState.setTool(
+        new Line(canvasState.canvas, canvasState.socket, canvasState.sessionId),
+      ),
   },
   {
     className: 'rainbow-rect',
@@ -37,11 +52,11 @@ const BUTTONS = [
   },
   {
     className: 'undo',
-    onClick: () => {},
+    onClick: () => canvasState.undo(),
   },
   {
     className: 'redo',
-    onClick: () => {},
+    onClick: () => canvasState.redo(),
   },
   {
     className: 'save',

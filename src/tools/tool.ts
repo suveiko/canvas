@@ -3,9 +3,19 @@ import { Nullable } from 'types/types';
 export class Tool {
   protected ctx: Nullable<CanvasRenderingContext2D>;
 
-  constructor(protected canvas: Nullable<HTMLCanvasElement>) {
+  protected socket!: WebSocket;
+
+  protected id = '';
+
+  constructor(
+    protected canvas: Nullable<HTMLCanvasElement>,
+    protected webSocket: WebSocket,
+    protected userId: string,
+  ) {
     this.canvas = canvas;
     this.ctx = canvas!.getContext('2d');
+    this.socket = webSocket;
+    this.id = userId;
 
     this.destroyEvents();
   }

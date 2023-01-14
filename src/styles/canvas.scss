@@ -4,7 +4,11 @@
 .canvas {
   height: 100vh;
 
-  @include flex($align: center, $just: center)
+  @include flex($align: center, $just: center);
+}
+
+.button {
+  margin-top: $title;
 }
 
 canvas {
