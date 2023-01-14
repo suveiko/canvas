@@ -64,7 +64,7 @@ export class Rect extends Tool {
     const image = new Image();
 
     image.src = this.saved;
-    image.onload = () => {
+    image.onload = async () => {
       if (this.ctx && this.canvas) {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.ctx.drawImage(image, 0, 0, this.canvas.width, this.canvas.height);

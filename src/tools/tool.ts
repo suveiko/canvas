@@ -10,6 +10,18 @@ export class Tool {
     this.destroyEvents();
   }
 
+  public set fillColor(color: string) {
+    this.ctx!.fillStyle = color;
+  }
+
+  public set strokeColor(color: string) {
+    this.ctx!.strokeStyle = color;
+  }
+
+  public set lineWidth(width: number) {
+    this.ctx!.lineWidth = width;
+  }
+
   private destroyEvents() {
     if (this.canvas) {
       this.canvas.onmousemove = null;

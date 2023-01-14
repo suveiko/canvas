@@ -11,6 +11,12 @@ import { Brush } from 'tools/brush';
 export const Canvas = observer(() => {
   const canvasRef = useRef(null);
 
+  const mouseDownHandler = () => {
+    const currentRef = canvasRef.current as unknown as HTMLCanvasElement;
+
+    canvasState.pushToUndo(currentRef.toDataURL());
+  };
+
   useEffect(() => {
     canvasState.setCanvas(canvasRef.current);
     toolState.setTool(new Brush(canvasRef.current));
@@ -18,7 +24,12 @@ export const Canvas = observer(() => {
 
   return (
     <div className="canvas">
-      <canvas ref={canvasRef} width={CANVAS_WIDTH} height={CANVAS_HEIGHT} />
+      <canvas
+        onMouseDown={mouseDownHandler}
+        ref={canvasRef}
+        width={CANVAS_WIDTH}
+        height={CANVAS_HEIGHT}
+      />
     </div>
   );
 });

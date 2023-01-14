@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { ChangeEvent, FC } from 'react';
 
 import 'styles/toolbar.scss';
 
@@ -49,17 +49,24 @@ const BUTTONS = [
   },
 ] as const;
 
-export const Toolbar: FC = () => (
-  <div className="tool-bar">
-    {BUTTONS.map(({ className, onClick }) => (
-      <button
-        aria-label="button"
-        key={className}
-        type="button"
-        onClick={onClick}
-        className={`tool-bar__btn ${className}`}
-      />
-    ))}
-    <input type="color" />
-  </div>
-);
+export const Toolbar: FC = () => {
+  const onChange = (event: ChangeEvent<HTMLInputElement>) => {
+    toolState.setFillColor(event.currentTarget.value);
+    toolState.setStrokeColor(event.currentTarget.value);
+  };
+
+  return (
+    <div className="tool-bar">
+      {BUTTONS.map(({ className, onClick }) => (
+        <button
+          aria-label="button"
+          key={className}
+          type="button"
+          onClick={onClick}
+          className={`tool-bar__btn ${className}`}
+        />
+      ))}
+      <input type="color" onChange={onChange} />
+    </div>
+  );
+};
