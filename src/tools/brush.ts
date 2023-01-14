@@ -49,11 +49,10 @@ export class Brush extends Tool {
     }
   }
 
-  private draw(x: number, y: number) {
+  protected draw(x: number, y: number) {
     if (this.ctx) {
       this.ctx.lineTo(x, y);
       this.ctx.stroke();
-      console.log('brush');
     }
   }
 }

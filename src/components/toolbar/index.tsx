@@ -1,26 +1,63 @@
 import { FC } from 'react';
+
 import 'styles/toolbar.scss';
 
-const STYLES = [
-  'brush',
-  'rect',
-  'circle',
-  'eraser',
-  'line',
-  'rainbow-rect',
-  'undo',
-  'redo',
-  'save',
-];
+import canvasState from 'store/canvasState';
+import toolState from 'store/toolState';
+import { Brush } from 'tools/brush';
+import { Circle } from 'tools/circle';
+import { Eraser } from 'tools/eraser';
+import { Line } from 'tools/line';
+import { Rect } from 'tools/rect';
+
+const BUTTONS = [
+  {
+    className: 'brush',
+    onClick: () => toolState.setTool(new Brush(canvasState.canvas)),
+  },
+  {
+    className: 'rect',
+    onClick: () => toolState.setTool(new Rect(canvasState.canvas)),
+  },
+  {
+    className: 'circle',
+    onClick: () => toolState.setTool(new Circle(canvasState.canvas)),
+  },
+  {
+    className: 'eraser',
+    onClick: () => toolState.setTool(new Eraser(canvasState.canvas)),
+  },
+  {
+    className: 'line',
+    onClick: () => toolState.setTool(new Line(canvasState.canvas)),
+  },
+  {
+    className: 'rainbow-rect',
+    onClick: () => {},
+  },
+  {
+    className: 'undo',
+    onClick: () => {},
+  },
+  {
+    className: 'redo',
+    onClick: () => {},
+  },
+  {
+    className: 'save',
+    onClick: () => {},
+  },
+] as const;
 
 export const Toolbar: FC = () => (
   <div className="tool-bar">
-    {STYLES.map(style => (
+    {BUTTONS.map(({ className, onClick }) => (
       <button
         aria-label="button"
-        key={style}
+        key={className}
         type="button"
-        className={`tool-bar__btn ${style}`}
+        onClick={onClick}
+        className={`tool-bar__btn ${className}`}
       />
     ))}
     <input type="color" />
