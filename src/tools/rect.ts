@@ -13,10 +13,14 @@ export class Rect extends Tool {
 
   private saved!: string;
 
+  private width!: number;
+
+  private height!: number;
+
   constructor(
-    protected canvas: Nullable<HTMLCanvasElement>,
-    protected socket: WebSocket,
-    protected id: string,
+    protected readonly canvas: Nullable<HTMLCanvasElement>,
+    protected readonly socket: WebSocket,
+    protected readonly id: string,
   ) {
     super(canvas, socket, id);
 
@@ -31,8 +35,25 @@ export class Rect extends Tool {
     }
   }
 
-  private mouseUpHandler() {
+  private mouseUpHandler(event: MouseEvent) {
+    this.target = event.target as HTMLElement;
     this.mouseDown = false;
+
+    if (this.mouseDown) {
+      this.socket.send(
+        JSON.stringify({
+          method: 'draw',
+          id: this.id,
+          figure: {
+            type: 'rect',
+            x: this.startX,
+            y: this.startY,
+            width: this.width,
+            height: this.height,
+          },
+        }),
+      );
+    }
   }
 
   private mouseDownHandler(event: MouseEvent) {
@@ -52,15 +73,16 @@ export class Rect extends Tool {
 
     const currentX = event.pageX - this.target.offsetLeft;
     const currentY = event.pageY - this.target.offsetTop;
-    const width = currentX - this.startX;
-    const height = currentY - this.startY;
+
+    this.width = currentX - this.startX;
+    this.height = currentY - this.startY;
 
     if (this.canvas) {
       this.saved = this.canvas.toDataURL();
     }
 
     if (this.mouseDown) {
-      this.draw(this.startX, this.startY, width, height);
+      this.draw(this.startX, this.startY, this.width, this.height);
     }
   }
 
@@ -78,5 +100,18 @@ export class Rect extends Tool {
         this.ctx.stroke();
       }
     };
+  }
+
+  public static staticDraw(
+    ctx: CanvasRenderingContext2D,
+    x: number,
+    y: number,
+    w: number,
+    h: number,
+  ) {
+    ctx.beginPath();
+    ctx.rect(x, y, w, h);
+    ctx.fill();
+    ctx.stroke();
   }
 }

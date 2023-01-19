@@ -8,9 +8,9 @@ export class Brush extends Tool {
   private mouseDown!: boolean;
 
   constructor(
-    protected canvas: Nullable<HTMLCanvasElement>,
-    protected socket: WebSocket,
-    protected id: string,
+    protected readonly canvas: Nullable<HTMLCanvasElement>,
+    protected readonly socket: WebSocket,
+    protected readonly id: string,
   ) {
     super(canvas, socket, id);
 
@@ -73,8 +73,8 @@ export class Brush extends Tool {
     }
   }
 
-  static draw(ctx: Nullable<CanvasRenderingContext2D>, x: number, y: number) {
-    ctx!.lineTo(x, y);
-    ctx!.stroke();
+  static draw(ctx: CanvasRenderingContext2D, x: number, y: number) {
+    ctx.lineTo(x, y);
+    ctx.stroke();
   }
 }

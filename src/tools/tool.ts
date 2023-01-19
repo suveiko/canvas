@@ -1,16 +1,16 @@
 import { Nullable } from 'types/types';
 
 export class Tool {
-  protected ctx: Nullable<CanvasRenderingContext2D>;
+  protected readonly ctx: Nullable<CanvasRenderingContext2D>;
 
   protected socket!: WebSocket;
 
   protected id = '';
 
   constructor(
-    protected canvas: Nullable<HTMLCanvasElement>,
-    protected webSocket: WebSocket,
-    protected userId: string,
+    protected readonly canvas: Nullable<HTMLCanvasElement>,
+    protected readonly webSocket: WebSocket,
+    protected readonly userId: string,
   ) {
     this.canvas = canvas;
     this.ctx = canvas!.getContext('2d');

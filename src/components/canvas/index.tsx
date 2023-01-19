@@ -2,14 +2,16 @@ import 'styles/canvas.scss';
 import { useEffect, useRef, useState } from 'react';
 
 import { Button, Input, Modal } from '@mantine/core';
+import axios from 'axios';
 import { observer } from 'mobx-react-lite';
 import { useParams } from 'react-router-dom';
 
-import { CANVAS_HEIGHT, CANVAS_WIDTH } from 'constants/canvas';
+import { socketApi } from 'api/socket-api';
+import { drawFigure } from 'helpers/drawFigure';
 import canvasState from 'store/canvasState';
-import toolState from 'store/toolState';
-import { Brush } from 'tools/brush';
 import { CanvasObject } from 'types/types';
+
+import { CANVAS_HEIGHT, CANVAS_WIDTH } from './contants';
 
 export const Canvas = observer(() => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -18,9 +20,15 @@ export const Canvas = observer(() => {
 
   const { id } = useParams();
 
-  const mouseDownHandler = () => {
+  const mouseDownHandler = async () => {
     if (canvasRef.current) {
       canvasState.pushToUndo(canvasRef.current.toDataURL());
+      // saveImage(id, canvasRef).then(res => console.log(res));
+      await axios
+        .post(`http://localhost:3000/image?id=${id}`, {
+          img: canvasRef?.current.toDataURL(),
+        })
+        .then(res => console.log(res));
     }
   };
 
@@ -40,54 +48,30 @@ export const Canvas = observer(() => {
       ctx = canvasRef.current.getContext('2d');
     }
 
-    switch (figure!.type) {
-      case 'brush':
-        if (ctx) {
-          Brush.draw(ctx, figure!.x, figure!.y);
-        }
-        break;
-      default:
-        break;
-    }
+    drawFigure(ctx, figure);
   };
 
   useEffect(() => {
     canvasState.setCanvas(canvasRef.current);
+    axios.get(`http://localhost:3000/image?id=${id}`).then(res => {
+      console.log(res);
+      const image = new Image();
+      const ctx = canvasRef.current!.getContext('2d');
+
+      image.src = res.data;
+      image.onload = async () => {
+        if (ctx) {
+          ctx.clearRect(0, 0, canvasRef.current!.width, canvasRef.current!.height);
+          ctx.drawImage(image, 0, 0, canvasRef.current!.width, canvasRef.current!.height);
+          ctx.stroke();
+        }
+      };
+    });
   }, []);
 
   useEffect(() => {
     if (canvasState.username) {
-      const socket = new WebSocket('ws://localhost:3000/');
-
-      canvasState.setSocket(socket);
-      if (id) {
-        toolState.setTool(new Brush(canvasRef.current, socket, id));
-        canvasState.setSessionId(id);
-      }
-
-      socket.onopen = () => {
-        socket.send(
-          JSON.stringify({
-            id,
-            username: canvasState.username,
-            method: 'connection',
-          }),
-        );
-      };
-
-      socket.onmessage = (event: MessageEvent) => {
-        const msq = JSON.parse(event.data);
-
-        switch (msq.method) {
-          case 'connection':
-            break;
-          case 'draw':
-            drawHandler(msq);
-            break;
-          default:
-            break;
-        }
-      };
+      socketApi(id, canvasRef, drawHandler);
     }
   }, [canvasState.username]);
 

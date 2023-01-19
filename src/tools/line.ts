@@ -16,9 +16,9 @@ export class Line extends Tool {
   private saved!: string;
 
   constructor(
-    protected canvas: Nullable<HTMLCanvasElement>,
-    protected socket: WebSocket,
-    protected id: string,
+    protected readonly canvas: Nullable<HTMLCanvasElement>,
+    protected readonly socket: WebSocket,
+    protected readonly id: string,
   ) {
     super(canvas, socket, id);
     this.listen();

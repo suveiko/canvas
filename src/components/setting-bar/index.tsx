@@ -1,10 +1,9 @@
 import { FC } from 'react';
 
 import 'styles/toolbar.scss';
-import toolState from 'store/toolState';
+import { MAX_LINE_WIDTH, MIN_LINE_WIDTH } from './contants';
 
-const MIN_LINE_WIDTH = 1;
-const MAX_LINE_WIDTH = 50;
+import toolState from 'store/toolState';
 
 export const SettingBar: FC = () => (
   <div className="setting-bar">
