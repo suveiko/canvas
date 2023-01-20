@@ -44,10 +44,6 @@ export const BUTTONS = [
       ),
   },
   {
-    className: 'rainbow-rect',
-    onClick: () => {},
-  },
-  {
     className: 'undo',
     onClick: () => canvasState.undo(),
   },

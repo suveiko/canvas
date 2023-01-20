@@ -5,12 +5,12 @@ import toolState from 'store/toolState';
 import { Brush } from 'tools/brush';
 import { CanvasObject, Methods } from 'types/types';
 
-export const socketApi = async (
+export const socketApi = (
   id?: string,
   canvasRef?: RefObject<HTMLCanvasElement>,
   drawHandler?: (msq: CanvasObject) => void,
 ) => {
-  const socket = await new WebSocket('ws://localhost:3000/');
+  const socket = new WebSocket('ws://localhost:3000/');
 
   canvasState.setSocket(socket);
   if (id) {

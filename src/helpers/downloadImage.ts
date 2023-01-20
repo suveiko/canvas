@@ -3,7 +3,6 @@ import canvasState from 'store/canvasState';
 export const downloadImage = () => {
   const dataURL = canvasState.canvas?.toDataURL();
 
-  console.log(dataURL);
   if (!dataURL) {
     return;
   }

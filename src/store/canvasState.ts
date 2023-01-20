@@ -39,10 +39,6 @@ class CanvasState {
     this.undoList.push(data);
   }
 
-  public pushToRedo(data: string) {
-    this.redoList.push(data);
-  }
-
   public undo() {
     const ctx = this.canvas!.getContext('2d');
 

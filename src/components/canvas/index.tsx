@@ -2,7 +2,6 @@ import 'styles/canvas.scss';
 import { useEffect, useRef, useState } from 'react';
 
 import { Button, Input, Modal } from '@mantine/core';
-import axios from 'axios';
 import { observer } from 'mobx-react-lite';
 import { useParams } from 'react-router-dom';
 
@@ -23,12 +22,6 @@ export const Canvas = observer(() => {
   const mouseDownHandler = async () => {
     if (canvasRef.current) {
       canvasState.pushToUndo(canvasRef.current.toDataURL());
-      // saveImage(id, canvasRef).then(res => console.log(res));
-      await axios
-        .post(`http://localhost:3000/image?id=${id}`, {
-          img: canvasRef?.current.toDataURL(),
-        })
-        .then(res => console.log(res));
     }
   };
 
@@ -53,20 +46,6 @@ export const Canvas = observer(() => {
 
   useEffect(() => {
     canvasState.setCanvas(canvasRef.current);
-    axios.get(`http://localhost:3000/image?id=${id}`).then(res => {
-      console.log(res);
-      const image = new Image();
-      const ctx = canvasRef.current!.getContext('2d');
-
-      image.src = res.data;
-      image.onload = async () => {
-        if (ctx) {
-          ctx.clearRect(0, 0, canvasRef.current!.width, canvasRef.current!.height);
-          ctx.drawImage(image, 0, 0, canvasRef.current!.width, canvasRef.current!.height);
-          ctx.stroke();
-        }
-      };
-    });
   }, []);
 
   useEffect(() => {
