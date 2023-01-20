@@ -9,26 +9,8 @@ class CanvasState {
 
   protected redoList: string[] = [];
 
-  public username = '';
-
-  public socket!: WebSocket;
-
-  public sessionId = '';
-
   constructor() {
     makeAutoObservable(this);
-  }
-
-  public setSocket(socket: WebSocket) {
-    this.socket = socket;
-  }
-
-  public setSessionId(sessionId: string) {
-    this.sessionId = sessionId;
-  }
-
-  public setUserName(name: string) {
-    this.username = name;
   }
 
   public setCanvas(canvas: Nullable<HTMLCanvasElement>) {

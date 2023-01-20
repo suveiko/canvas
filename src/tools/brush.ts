@@ -7,12 +7,8 @@ export class Brush extends Tool {
 
   private mouseDown!: boolean;
 
-  constructor(
-    protected readonly canvas: Nullable<HTMLCanvasElement>,
-    protected readonly socket: WebSocket,
-    protected readonly id: string,
-  ) {
-    super(canvas, socket, id);
+  constructor(protected canvas: Nullable<HTMLCanvasElement>) {
+    super(canvas);
 
     this.listen();
   }
@@ -25,21 +21,8 @@ export class Brush extends Tool {
     }
   }
 
-  private mouseUpHandler(event: MouseEvent) {
-    this.target = event.target as HTMLElement;
+  private mouseUpHandler() {
     this.mouseDown = false;
-
-    if (this.mouseDown) {
-      this.socket.send(
-        JSON.stringify({
-          method: 'draw',
-          id: this.id,
-          figure: {
-            type: 'finish',
-          },
-        }),
-      );
-    }
   }
 
   private mouseDownHandler(event: MouseEvent) {
@@ -59,22 +42,17 @@ export class Brush extends Tool {
     this.target = event.target as HTMLElement;
 
     if (this.mouseDown) {
-      this.socket.send(
-        JSON.stringify({
-          method: 'draw',
-          id: this.id,
-          figure: {
-            type: 'brush',
-            x: event.pageX - this.target.offsetLeft,
-            y: event.pageY - this.target.offsetTop,
-          },
-        }),
+      this.draw(
+        event.pageX - this.target.offsetLeft,
+        event.pageY - this.target.offsetTop,
       );
     }
   }
 
-  static draw(ctx: CanvasRenderingContext2D, x: number, y: number) {
-    ctx.lineTo(x, y);
-    ctx.stroke();
+  protected draw(x: number, y: number) {
+    if (this.ctx) {
+      this.ctx.lineTo(x, y);
+      this.ctx.stroke();
+    }
   }
 }

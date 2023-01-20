@@ -1,3 +1,4 @@
+import { PATH } from 'components/routes-page/constants';
 import canvasState from 'store/canvasState';
 
 export const downloadImage = () => {
@@ -10,7 +11,7 @@ export const downloadImage = () => {
   const a = document.createElement('a');
 
   a.href = dataURL;
-  a.download = `${canvasState.sessionId}.jpg`;
+  a.download = `${(+new Date()).toString(PATH)}.jpg`;
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);

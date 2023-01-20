@@ -17,12 +17,8 @@ export class Rect extends Tool {
 
   private height!: number;
 
-  constructor(
-    protected readonly canvas: Nullable<HTMLCanvasElement>,
-    protected readonly socket: WebSocket,
-    protected readonly id: string,
-  ) {
-    super(canvas, socket, id);
+  constructor(protected readonly canvas: Nullable<HTMLCanvasElement>) {
+    super(canvas);
 
     this.listen();
   }
@@ -38,22 +34,6 @@ export class Rect extends Tool {
   private mouseUpHandler(event: MouseEvent) {
     this.target = event.target as HTMLElement;
     this.mouseDown = false;
-
-    if (this.mouseDown) {
-      this.socket.send(
-        JSON.stringify({
-          method: 'draw',
-          id: this.id,
-          figure: {
-            type: 'rect',
-            x: this.startX,
-            y: this.startY,
-            width: this.width,
-            height: this.height,
-          },
-        }),
-      );
-    }
   }
 
   private mouseDownHandler(event: MouseEvent) {

@@ -10,38 +10,23 @@ import { Rect } from 'tools/rect';
 export const BUTTONS = [
   {
     className: 'brush',
-    onClick: () =>
-      toolState.setTool(
-        new Brush(canvasState.canvas, canvasState.socket, canvasState.sessionId),
-      ),
+    onClick: () => toolState.setTool(new Brush(canvasState.canvas)),
   },
   {
     className: 'rect',
-    onClick: () =>
-      toolState.setTool(
-        new Rect(canvasState.canvas, canvasState.socket, canvasState.sessionId),
-      ),
+    onClick: () => toolState.setTool(new Rect(canvasState.canvas)),
   },
   {
     className: 'circle',
-    onClick: () =>
-      toolState.setTool(
-        new Circle(canvasState.canvas, canvasState.socket, canvasState.sessionId),
-      ),
+    onClick: () => toolState.setTool(new Circle(canvasState.canvas)),
   },
   {
     className: 'eraser',
-    onClick: () =>
-      toolState.setTool(
-        new Eraser(canvasState.canvas, canvasState.socket, canvasState.sessionId),
-      ),
+    onClick: () => toolState.setTool(new Eraser(canvasState.canvas)),
   },
   {
     className: 'line',
-    onClick: () =>
-      toolState.setTool(
-        new Line(canvasState.canvas, canvasState.socket, canvasState.sessionId),
-      ),
+    onClick: () => toolState.setTool(new Line(canvasState.canvas)),
   },
   {
     className: 'undo',

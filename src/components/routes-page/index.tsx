@@ -2,10 +2,9 @@ import { FC } from 'react';
 
 import { Navigate, Route, Routes } from 'react-router-dom';
 
-import { Canvas } from 'components/canvas';
-
 import { PATH } from './constants';
 
+import { Canvas } from 'components/canvas';
 import { SettingBar } from 'components/setting-bar';
 import { Toolbar } from 'components/toolbar';
 

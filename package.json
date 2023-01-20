@@ -12,10 +12,9 @@
     "lint:fix": "eslint --fix --ext \".ts,.tsx\" \"src/**/*.{ts,tsx,*.ts,*tsx}\""
   },
   "dependencies": {
-    "@emotion/react": "^11.10.5",
-    "@mantine/core": "^5.10.0",
-    "@mantine/hooks": "^5.10.0",
-    "axios": "^1.2.3",
+    "vite": "^4.0.4",
+    "vite-tsconfig-paths": "^4.0.3",
+    "@vitejs/plugin-react": "^3.0.1",
     "mobx": "^6.7.0",
     "mobx-react-lite": "^3.4.0",
     "react": "^18.2.0",
@@ -27,7 +26,6 @@
     "@types/react-dom": "^18.0.8",
     "@typescript-eslint/eslint-plugin": "^5.35.1",
     "@typescript-eslint/parser": "^5.35.1",
-    "@vitejs/plugin-react": "^3.0.1",
     "commitizen": "^4.2.5",
     "cz-conventional-changelog": "3.3.0",
     "eslint": "8.22.0",
@@ -43,9 +41,7 @@
     "lint-staged": "^13.0.3",
     "prettier": "^2.8.0",
     "sass": "^1.57.1",
-    "typescript": "^4.6.4",
-    "vite": "^4.0.4",
-    "vite-tsconfig-paths": "^4.0.3"
+    "typescript": "^4.6.4"
   },
   "config": {
     "commitizen": {
