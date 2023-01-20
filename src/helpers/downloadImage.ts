@@ -1,5 +1,6 @@
-import { PATH } from 'components/routes-page/constants';
 import canvasState from 'store/canvasState';
+
+const RANDOM = 16;
 
 export const downloadImage = () => {
   const dataURL = canvasState.canvas?.toDataURL();
@@ -11,7 +12,7 @@ export const downloadImage = () => {
   const a = document.createElement('a');
 
   a.href = dataURL;
-  a.download = `${(+new Date()).toString(PATH)}.jpg`;
+  a.download = `${(+new Date()).toString(RANDOM)}.jpg`;
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);

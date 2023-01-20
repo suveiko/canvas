@@ -2,14 +2,14 @@ import { FC } from 'react';
 
 import 'styles/app.scss';
 
-import { BrowserRouter } from 'react-router-dom';
-
-import { RoutesPage } from 'components/routes-page';
+import { Canvas } from 'components/canvas';
+import { SettingBar } from 'components/setting-bar';
+import { Toolbar } from 'components/toolbar';
 
 export const App: FC = () => (
-  <BrowserRouter>
-    <div className="app">
-      <RoutesPage />
-    </div>
-  </BrowserRouter>
+  <div className="app">
+    <Toolbar />
+    <SettingBar />
+    <Canvas />
+  </div>
 );
